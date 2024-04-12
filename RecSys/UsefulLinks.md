@@ -10,3 +10,4 @@
 
 ### Models
 * [Wide and deep](ttps://github.com/shenweichen/DeepCTR-Torch/tree/master)
+*[DeepFM]https://github.com/reczoo/FuxiCTR/blob/main/model_zoo/DeepFM/DeepFM_torch/src/DeepFM.py
