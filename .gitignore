@@ -2,8 +2,9 @@
 ## This default template includes entries for R, Python and visual studio
 
 recsysvenv/
-.DS_store/
+.DS_store
 archive/
+data/
 
 
 ##
