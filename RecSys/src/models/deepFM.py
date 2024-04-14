@@ -370,7 +370,7 @@ class DeepFMImp(nn.Module):
         # FM linear layer
         self.fm_sparse = nn.Linear(num_numeric_feats + sum(cat_feature_vocab), 1)
         self.fm_linear = nn.Linear(2, 1)
-        
+
         self.final_linear = nn.Linear(2, 1)
         self.final_sigmoid = nn.Sigmoid()
 
