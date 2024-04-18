@@ -1,12 +1,3 @@
-"""
-Blyat nu eto polnaya huina. Ele nashel infy voobsche v inete. 
-
-Po itogy:
-Deep part: MLP([embed(userId), embed(movieId)])
-Wide part: one-hot genres + user feats
-
-"""
-
 from collections import OrderedDict
 
 import torch
