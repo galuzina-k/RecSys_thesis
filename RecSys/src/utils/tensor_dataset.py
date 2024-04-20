@@ -28,7 +28,7 @@ class trainDataset(Dataset):
         user_item_set = set(zip(ratings["userId"], ratings["movieId"]))
 
         num_negatives = 4
-        for u, i in user_item_set:
+        for u, i in tqdm(user_item_set):
             users.append(u)
             items.append(i)
             labels.append(1)

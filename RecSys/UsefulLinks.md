@@ -7,6 +7,7 @@
 
 ### Metrics:
 * https://github.com/zuoxingdong/recsys_metrics
+* https://github.com/recommenders-team/recommenders/blob/main/recommenders/evaluation/python_evaluation.py
 
 ### Models
 * [Wide and deep](ttps://github.com/shenweichen/DeepCTR-Torch/tree/master)

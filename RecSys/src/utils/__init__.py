@@ -6,3 +6,4 @@ from .tensor_dataset import (
     trainDatasetWithCrossFeatures,
     trainDatasetWithNumCatFeatures,
 )
+from .similarities import computeCosineSimilarities
