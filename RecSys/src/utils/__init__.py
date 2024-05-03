@@ -7,3 +7,4 @@ from .tensor_dataset import (
     trainDatasetWithNumCatFeatures,
 )
 from .similarities import computeCosineSimilarities
+from .mlp_layer import MLP
