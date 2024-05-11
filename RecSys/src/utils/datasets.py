@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 from tqdm.auto import tqdm
 
 
-class trainDataset(Dataset):
+class UserMovieDataset(Dataset):
     """MovieLens PyTorch Dataset for Training
 
     Args:

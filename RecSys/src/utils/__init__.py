@@ -10,8 +10,9 @@ from .mlp_layer import MLP
 from .set_seed import seed_everything
 from .similarities import computeCosineSimilarities
 from .surprise import surprise_predict
-from .tensor_dataset import (
-    trainDataset,
+from .datasets import (
+    UserMovieDataset,
     trainDatasetWithCrossFeatures,
     trainDatasetWithNumCatFeatures,
 )
+from .torch_utils import train, predict
