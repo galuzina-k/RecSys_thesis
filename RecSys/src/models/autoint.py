@@ -1,10 +1,6 @@
-from pytorch_tabular.config import (
-    DataConfig,
-    OptimizerConfig,
-    TrainerConfig,
-)
-from pytorch_tabular.models import AutoIntConfig
 from pytorch_tabular import TabularModel
+from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
+from pytorch_tabular.models import AutoIntConfig
 
 
 class AutoInt:

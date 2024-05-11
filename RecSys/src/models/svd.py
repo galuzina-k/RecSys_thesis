@@ -1,4 +1,5 @@
 from surprise import SVDpp
+
 from ..utils import surprise_predict
 
 

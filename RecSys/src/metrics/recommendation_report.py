@@ -1,5 +1,7 @@
 import torch
-from recsys_metrics import hit_rate, normalized_dcg, expected_popularity_complement
+from recsys_metrics import (expected_popularity_complement, hit_rate,
+                            normalized_dcg)
+
 from .bahavioral_metrics import intraListDiversity
 
 
