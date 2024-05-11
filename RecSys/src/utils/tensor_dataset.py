@@ -2,7 +2,7 @@ import mmh3
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 
 class trainDataset(Dataset):

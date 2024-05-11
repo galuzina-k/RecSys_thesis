@@ -1,4 +1,4 @@
-"""Basic utility functions"""
+"""Basic utility functions for SVD"""
 
 import torch
 

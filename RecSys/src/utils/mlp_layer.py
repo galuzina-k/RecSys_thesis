@@ -15,19 +15,19 @@ class MLP(nn.Module):
         dropout_rate=0.2,
     ):
         super().__init__()
-        self.layer = OrderedDict()
-        self.layer["Linear"] = nn.Linear(in_features, out_features)
+        self.block = OrderedDict()
+        self.block["Linear"] = nn.Linear(in_features, out_features)
 
         if activation:
-            self.layer["Activation"] = nn.ReLU()
+            self.block["Activation"] = nn.ReLU()
 
         if dropout:
-            self.layer["Dropout"] = nn.Dropout(p=dropout_rate)
+            self.block["Dropout"] = nn.Dropout(p=dropout_rate)
 
         if batchnorm:
-            self.layer["BatchNorm"] = nn.BatchNorm1d(num_features=out_features)
+            self.block["BatchNorm"] = nn.BatchNorm1d(num_features=out_features)
 
-        self.layer = nn.Sequential(self.layer)
+        self.block = nn.Sequential(self.block)
 
     def forward(self, x):
-        return self.layer(x)
+        return self.block(x)

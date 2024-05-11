@@ -3,30 +3,49 @@ from collections import OrderedDict
 import torch
 from torch import nn
 
+from ..utils import MLP
+
 
 class wideAndDeep(nn.Module):
     def __init__(
-        self, num_users, num_items, cross_feats_dim, mlp_layer_sizes=[16, 64, 32, 8]
+        self,
+        num_users,
+        num_items,
+        cross_feats_dim,
+        n_mlp_layers,
+        mlp_layers_dim,
+        mlp_kwargs={},
     ):
         super().__init__()
         self.user_embedding = nn.Embedding(
-            num_embeddings=num_users, embedding_dim=mlp_layer_sizes[0] // 2
+            num_embeddings=num_users, embedding_dim=mlp_layers_dim // 2
         )
         self.item_embedding = nn.Embedding(
-            num_embeddings=num_items, embedding_dim=mlp_layer_sizes[0] // 2
+            num_embeddings=num_items, embedding_dim=mlp_layers_dim // 2
         )
 
         self.mlp = OrderedDict()
-        for i in range(1, len(mlp_layer_sizes)):
-            self.mlp[f"MLP_layer_{i}"] = nn.Linear(
-                mlp_layer_sizes[i - 1], mlp_layer_sizes[i]
+        for i in range(n_mlp_layers):
+            self.mlp[f"MLP_layer_{i}"] = MLP(
+                mlp_layers_dim, mlp_layers_dim, **mlp_kwargs
             )
-            self.mlp[f"Activation_layer_{i}"] = nn.ReLU()
         self.mlp = nn.Sequential(self.mlp)
 
-        self.cross = nn.Linear(cross_feats_dim, mlp_layer_sizes[-1])
+        self.cross = MLP(
+            cross_feats_dim,
+            mlp_layers_dim,
+            activation=False,
+            dropout=False,
+            batchnorm=False,
+        )
 
-        self.final = nn.Linear(mlp_layer_sizes[-1] + self.cross.out_features, 1)
+        self.final = MLP(
+            mlp_layers_dim + self.cross.out_features,
+            1,
+            activation=False,
+            dropout=False,
+            batchnorm=False,
+        )
 
     def forward(self, user_input, item_input, cross_input):
         # Deep part
