@@ -141,20 +141,6 @@ class trainDatasetWithNumCatFeatures(Dataset):
             (user_features_cat[self.users], item_features_cat[self.items])
         ).to(torch.long)
         self.num_feats = user_features_num[self.users].clone().detach().to(torch.float)
-        # # constuct cross features with the restriction of maximum `hash_bucket_size` categories
-        # self.cross_features = []
-        # for i in tqdm(range(self.users.shape[0])):
-        #     crossed_category = (
-        #         user_features_mapping[self.users[i].item()]
-        #         + item_features_mapping[self.items[i].item()]
-        #     )
-        #     category_idx = mmh3.hash(crossed_category) % hash_bucket_size
-
-        #     feature = [0 for _ in range(hash_bucket_size)]
-        #     feature[category_idx] = 1
-        #     self.cross_features.append(feature)
-
-        # self.cross_features = torch.tensor(self.cross_features).to(torch.float32)
 
     def __len__(self):
         return len(self.users)

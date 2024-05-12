@@ -5,6 +5,7 @@ from .data import (
     add_not_watched_movies,
     create_test_user_display_df,
     load_MovieLens,
+    enrich_train_with_negatives,
 )
 from .mlp_layer import MLP
 from .set_seed import seed_everything

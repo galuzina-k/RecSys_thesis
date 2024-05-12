@@ -7,7 +7,7 @@ class AutoInt:
     def __init__(
         self,
         task="classification",
-        target=["label"],
+        target=["action"],
         continuous_cols=["age"],
         categorical_cols=["userId", "movieId", "gender", "occupation", "genre"],
         learning_rate=5e-4,

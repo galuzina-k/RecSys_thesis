@@ -140,3 +140,26 @@ def train_test_val_split(df_ratings, df_movies, random_state=777):
     )
 
     return df_train, df_test, df_val
+
+
+def enrich_train_with_negatives(df_train, df_movies):
+    users, items, labels = [], [], []
+    all_movieIds = df_movies["movieId"].nunique()
+    user_item_set = set(zip(df_train["userId"], df_train["movieId"]))
+
+    num_negatives = 4
+    for u, i in tqdm(user_item_set):
+        users.append(u)
+        items.append(i)
+        labels.append(1)
+        for _ in range(num_negatives):
+            negative_item = np.random.choice(all_movieIds)
+            while (u, negative_item) in user_item_set:
+                negative_item = np.random.choice(all_movieIds)
+            users.append(u)
+            items.append(negative_item)
+            labels.append(0)
+    df_train = pd.DataFrame(
+        np.array([users, items, labels]).T, columns=["userId", "movieId", "label"]
+    )
+    return df_train

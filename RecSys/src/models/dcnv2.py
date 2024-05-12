@@ -65,31 +65,32 @@ class DCNv2(nn.Module):
             d + mlp_layers_dim, 1, activation=False, batchnorm=False, dropout=False
         )
 
-        def forward(self, user_input, item_input, numeric_feats, categorical_feats):
-            # Embed users and items
-            user_embedded = self.user_embedding(user_input)
-            item_embedded = self.item_embedding(item_input)
+    def forward(self, user_input, item_input, numeric_feats, categorical_feats):
+        # Embed users and items
+        user_embedded = self.user_embedding(user_input)
+        item_embedded = self.item_embedding(item_input)
 
-            # Encode numeric
-            num_vec = torch.zeros(0, dtype=torch.float)
-            for i, emb in enumerate(self.numerical_embeddings):
-                num_vec = torch.hstack((num_vec, emb(numeric_feats[:, [i]])))
+        # Encode numeric
+        num_vec = torch.zeros(0, dtype=torch.float)
+        for i, emb in enumerate(self.numerical_embeddings):
+            num_vec = torch.hstack((num_vec, emb(numeric_feats[:, [i]])))
 
-            # Encode categorical
-            cat_vec = torch.zeros(0, dtype=torch.float)
-            for i, emb in enumerate(self.categorical_embeddings):
-                cat_vec = torch.hstack((cat_vec, emb(categorical_feats[:, i])))
+        # Encode categorical
+        cat_vec = torch.zeros(0, dtype=torch.float)
+        for i, emb in enumerate(self.categorical_embeddings):
+            cat_vec = torch.hstack((cat_vec, emb(categorical_feats[:, i])))
 
-            total_embed = torch.hstack((user_embedded, item_embedded, num_vec, cat_vec))
-            x_0 = total_embed
+        total_embed = torch.hstack((user_embedded, item_embedded, num_vec, cat_vec))
+        x_0 = total_embed
+        x = x_0
 
-            # cross
-            for i in range(self.l):
-                x = x_0 * self.feature_crossing[i](x) + x
+        # cross
+        for i in range(self.l):
+            x = x_0 * self.feature_crossing[i](x) + x
 
-            # dense
-            x_dense = self.mlp(total_embed)
+        # dense
+        x_dense = self.mlp(total_embed)
 
-            x_final = torch.hstack((x, x_dense))
-            out = torch.sigmoid(self.final(x_final))
-            return out
+        x_final = torch.hstack((x, x_dense))
+        out = torch.sigmoid(self.final(x_final))
+        return out

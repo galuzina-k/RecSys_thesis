@@ -40,7 +40,7 @@ class wideAndDeep(nn.Module):
         )
 
         self.final = MLP(
-            mlp_layers_dim + self.cross.out_features,
+            2 * mlp_layers_dim,
             1,
             activation=False,
             dropout=False,
