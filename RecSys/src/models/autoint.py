@@ -11,6 +11,9 @@ class AutoInt:
         continuous_cols=["age"],
         categorical_cols=["userId", "movieId", "gender", "occupation", "genre"],
         learning_rate=5e-4,
+        num_attn_blocks=3,
+        num_heads=2,
+        layers="32-32-32-32",
         head="LinearHead",
         accelerator="cpu",
         devices=10,
@@ -22,6 +25,7 @@ class AutoInt:
         early_stopping_patience=5,  # No. of epochs of degradation training will wait before terminating
         checkpoints="valid_loss",  # Save best checkpoint monitoring val_loss
         load_best=True,
+        verbose=True,
     ):
 
         data_config = DataConfig(
@@ -48,6 +52,9 @@ class AutoInt:
             task=task,
             learning_rate=learning_rate,
             head=head,  # Linear Head
+            num_attn_blocks=num_attn_blocks,
+            num_heads=num_heads,
+            layers=layers,
         )
 
         self.tabular_model = TabularModel(
@@ -55,6 +62,7 @@ class AutoInt:
             model_config=model_config,
             optimizer_config=optimizer_config,
             trainer_config=trainer_config,
+            verbose=verbose,
         )
 
     def fit(self, train):

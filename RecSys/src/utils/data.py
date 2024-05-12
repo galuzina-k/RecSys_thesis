@@ -5,7 +5,7 @@ from sklearn.preprocessing import LabelEncoder
 from tqdm.auto import tqdm
 
 
-def load_MovieLens(data_folder):
+def load_MovieLens(data_folder, sample_frac=1):
     """Load users, movies, ratings Data Frames with properly encoded userId, movieId"""
 
     df_movies = pd.read_csv(
@@ -26,6 +26,13 @@ def load_MovieLens(data_folder):
         sep=";",
         names=["userId", "gender", "age", "occupation", "zip-code"],
     )
+
+    # subsample data
+    if sample_frac < 1:
+        df_users = df_users.sample(frac=sample_frac).reset_index(drop=True)
+        df_ratings = df_ratings[df_ratings.userId.isin(df_users.userId)].reset_index(
+            drop=True
+        )
 
     ## Encode usedId, movieId
     user_encoder = LabelEncoder()

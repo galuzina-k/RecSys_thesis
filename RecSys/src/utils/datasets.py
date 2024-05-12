@@ -14,8 +14,10 @@ class UserMovieDataset(Dataset):
 
     """
 
-    def __init__(self, ratings, all_movieIds):
-        self.users, self.items, self.labels = self.get_dataset(ratings, all_movieIds)
+    def __init__(self, ratings, all_movieIds, verbose=True):
+        self.users, self.items, self.labels = self.get_dataset(
+            ratings, all_movieIds, verbose
+        )
 
     def __len__(self):
         return len(self.users)
@@ -23,12 +25,12 @@ class UserMovieDataset(Dataset):
     def __getitem__(self, idx):
         return self.users[idx], self.items[idx], self.labels[idx]
 
-    def get_dataset(self, ratings, all_movieIds):
+    def get_dataset(self, ratings, all_movieIds, verbose=True):
         users, items, labels = [], [], []
         user_item_set = set(zip(ratings["userId"], ratings["movieId"]))
 
         num_negatives = 4
-        for u, i in tqdm(user_item_set):
+        for u, i in tqdm(user_item_set, disable=not verbose):
             users.append(u)
             items.append(i)
             labels.append(1)
@@ -64,12 +66,15 @@ class trainDatasetWithCrossFeatures(Dataset):
         user_features_mapping,
         item_features_mapping,
         hash_bucket_size=20,
+        verbose=True,
     ):
-        self.users, self.items, self.labels = self.get_dataset(ratings, all_movieIds)
+        self.users, self.items, self.labels = self.get_dataset(
+            ratings, all_movieIds, verbose
+        )
 
         # constuct cross features with the restriction of maximum `hash_bucket_size` categories
         self.cross_features = []
-        for i in tqdm(range(self.users.shape[0])):
+        for i in tqdm(range(self.users.shape[0]), disable=not verbose):
             crossed_category = (
                 user_features_mapping[self.users[i].item()]
                 + item_features_mapping[self.items[i].item()]
@@ -93,12 +98,12 @@ class trainDatasetWithCrossFeatures(Dataset):
             self.labels[idx],
         )
 
-    def get_dataset(self, ratings, all_movieIds):
+    def get_dataset(self, ratings, all_movieIds, verbose=True):
         users, items, labels = [], [], []
         user_item_set = set(zip(ratings["userId"], ratings["movieId"]))
 
         num_negatives = 4
-        for u, i in tqdm(user_item_set):
+        for u, i in tqdm(user_item_set, disable=not verbose):
             users.append(u)
             items.append(i)
             labels.append(1)
@@ -134,8 +139,11 @@ class trainDatasetWithNumCatFeatures(Dataset):
         user_features_cat,
         user_features_num,
         item_features_cat,
+        verbose=True,
     ):
-        self.users, self.items, self.labels = self.get_dataset(ratings, all_movieIds)
+        self.users, self.items, self.labels = self.get_dataset(
+            ratings, all_movieIds, verbose
+        )
 
         self.cat_feats = torch.hstack(
             (user_features_cat[self.users], item_features_cat[self.items])
@@ -154,12 +162,12 @@ class trainDatasetWithNumCatFeatures(Dataset):
             self.labels[idx],
         )
 
-    def get_dataset(self, ratings, all_movieIds):
+    def get_dataset(self, ratings, all_movieIds, verbose=True):
         users, items, labels = [], [], []
         user_item_set = set(zip(ratings["userId"], ratings["movieId"]))
 
         num_negatives = 4
-        for u, i in tqdm(user_item_set):
+        for u, i in tqdm(user_item_set, disable=not verbose):
             users.append(u)
             items.append(i)
             labels.append(1)
